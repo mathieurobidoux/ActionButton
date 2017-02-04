@@ -197,7 +197,7 @@ open class ActionButton: NSObject {
     */
     fileprivate func toggle() {
         self.animateMenu()
-        self.showBlur()
+        //self.showBlur()
         
         self.active = !self.active
         self.floatButton.backgroundColor = self.active ? backgroundColorSelected : backgroundColor
