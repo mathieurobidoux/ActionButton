@@ -41,6 +41,15 @@ open class ActionButtonItem: NSObject {
             self.label.text = newValue
         }
     }
+    
+    public var backgroundColor : UIColor = UIColor.clear {
+        didSet{
+            if button != nil{
+                button.backgroundColor = backgroundColor
+            }
+        }
+    }
+    
     /// View that will hold the item's button and label
     internal var view: UIView!
     
@@ -63,9 +72,9 @@ open class ActionButtonItem: NSObject {
     fileprivate let backgroundInset = CGSize(width: 10, height: 10)
     
     /**
-        :param: title Title that will be presented when the item is active
-        :param: image Item's image used by the it's button
-    */
+     :param: title Title that will be presented when the item is active
+     :param: image Item's image used by the it's button
+     */
     public init(title optionalTitle: String?, image: UIImage?) {
         super.init()
         
@@ -80,12 +89,15 @@ open class ActionButtonItem: NSObject {
         self.button.layer.shadowRadius = 2
         self.button.layer.shadowOffset = CGSize(width: 1, height: 1)
         self.button.layer.shadowColor = UIColor.gray.cgColor
+        self.button.backgroundColor = backgroundColor
+        self.button.layer.cornerRadius = self.button.frame.size.width / 2
+        
         self.button.addTarget(self, action: #selector(ActionButtonItem.buttonPressed(_:)), for: .touchUpInside)
-
+        
         if let unwrappedImage = image {
             self.button.setImage(unwrappedImage, for: UIControlState())
         }
-                
+        
         if let text = optionalTitle , text.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty == false {
             self.label = UILabel()
             self.label.font = UIFont(name: "HelveticaNeue-Medium", size: 13)
@@ -124,7 +136,7 @@ open class ActionButtonItem: NSObject {
         
         self.view.addSubview(self.button)
     }
-        
+    
     //MARK: - Button Action Methods
     func buttonPressed(_ sender: UIButton) {
         if let unwrappedAction = self.action {
